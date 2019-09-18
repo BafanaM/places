@@ -1,4 +1,3 @@
-
 package com.example.places.filter;
 
 import android.R.style;
@@ -16,7 +15,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-
 
 import com.example.places.R;
 
@@ -43,22 +41,14 @@ public class FilterDialogFragment extends DialogFragment implements FilterContra
         listView.setAdapter(mFilterItemAdapter);
 
         final Button cancel = view.findViewById(R.id.btnCancel);
-        cancel.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                dismiss();
-            }
-        });
+        cancel.setOnClickListener(v -> dismiss());
         final Button apply = view.findViewById(R.id.btnApply);
-        apply.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                final Activity activity = getActivity();
-                if (activity instanceof FilterContract.FilterView) {
-                    ((FilterContract.FilterView) activity).onFilterDialogClose(true);
-                }
-                dismiss();
+        apply.setOnClickListener(v -> {
+            final Activity activity = getActivity();
+            if (activity instanceof FilterContract.FilterView) {
+                ((FilterContract.FilterView) activity).onFilterDialogClose(true);
             }
+            dismiss();
         });
         return view;
     }
@@ -111,23 +101,20 @@ public class FilterDialogFragment extends DialogFragment implements FilterContra
                 holder.btn.setAlpha(0.5f);
             }
 
-            convertView.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(final View v) {
-                    final FilterItem clickedItem = getItem(position);
-                    if (clickedItem != null) {
-                        if (clickedItem.getSelected()) {
-                            clickedItem.setSelected(false);
-                            holder.btn.setBackgroundResource(item.getIconId());
-                            holder.btn.setAlpha(0.5f);
-                        } else {
-                            clickedItem.setSelected(true);
-                            holder.btn.setBackgroundResource(item.getSelectedIconId());
-                            holder.btn.setAlpha(1.0f);
-                        }
+            convertView.setOnClickListener(v -> {
+                final FilterItem clickedItem = getItem(position);
+                if (clickedItem != null) {
+                    if (clickedItem.getSelected()) {
+                        clickedItem.setSelected(false);
+                        holder.btn.setBackgroundResource(item.getIconId());
+                        holder.btn.setAlpha(0.5f);
+                    } else {
+                        clickedItem.setSelected(true);
+                        holder.btn.setBackgroundResource(item.getSelectedIconId());
+                        holder.btn.setAlpha(1.0f);
                     }
-
                 }
+
             });
 
             return convertView;
