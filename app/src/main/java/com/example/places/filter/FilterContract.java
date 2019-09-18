@@ -1,7 +1,7 @@
 package com.example.places.filter;
 
-import com.example.mapsdemo.BasePresenter;
-import com.example.mapsdemo.BaseView;
+import com.example.places.BasePresenter;
+import com.example.places.BaseView;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.places.data;
+package com.example.places.networking;
 
 import android.content.Context;
 
@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.tasks.geocode.GeocodeParameters;
 import com.esri.arcgisruntime.tasks.networkanalysis.RouteResult;
+import com.example.places.data.Place;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.places;
+package com.example.places.networking;
 
 import com.example.places.data.CityDataModel;
 
