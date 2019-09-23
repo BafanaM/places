@@ -3,6 +3,10 @@ package com.example.places.data;
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
 
+import androidx.core.content.res.ResourcesCompat;
+
+import com.example.places.R;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -90,16 +94,22 @@ public class CategoryHelper {
         final int pinIcon;
         switch (category) {
             case "Pizza":
+                pinIcon = R.drawable.pizza_pin;
                 break;
             case "Hotel":
+                pinIcon = R.drawable.hotel_pin;
                 break;
             case "Food":
+                pinIcon = R.drawable.restaurant_pin;
                 break;
             case "Bar or Pub":
+                pinIcon = R.drawable.bar_pin;
                 break;
             case "Coffee Shop":
+                pinIcon = R.drawable.cafe_pin;
                 break;
             default:
+                pinIcon = R.drawable.empty_pin;
         }
         return pinIcon;
     }
@@ -111,16 +121,22 @@ public class CategoryHelper {
         final Drawable categoryIcon;
         switch (category) {
             case "Pizza":
+                categoryIcon = ResourcesCompat.getDrawable(activity.getResources(), R.drawable.ic_local_pizza_black_24dp, null);
                 break;
             case "Hotel":
+                categoryIcon = ResourcesCompat.getDrawable(activity.getResources(), R.drawable.ic_hotel_black_24dp, null);
                 break;
             case "Food":
+                categoryIcon = ResourcesCompat.getDrawable(activity.getResources(), R.drawable.ic_local_dining_black_24dp, null);
                 break;
             case "Bar or Pub":
+                categoryIcon = ResourcesCompat.getDrawable(activity.getResources(), R.drawable.ic_local_bar_black_24dp, null);
                 break;
             case "Coffee Shop":
+                categoryIcon = ResourcesCompat.getDrawable(activity.getResources(), R.drawable.ic_local_cafe_black_24dp, null);
                 break;
             default:
+                categoryIcon = ResourcesCompat.getDrawable(activity.getResources(), R.drawable.ic_place_black_24dp, null);
         }
         return categoryIcon;
     }

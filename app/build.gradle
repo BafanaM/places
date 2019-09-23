@@ -52,6 +52,7 @@ dependencies {
     def esri_maps_version = "100.5.0"
     def google_maps_version = "17.0.0"
     def retrofit_version = "2.3.0"
+    def location_service_version = "17.0.0"
 
     implementation "androidx.appcompat:appcompat:$androidx_appcompact_version"
     implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
@@ -71,6 +72,7 @@ dependencies {
     implementation "com.esri.arcgisruntime:arcgis-android:$esri_maps_version"
     implementation "com.google.android.gms:play-services-maps:$google_maps_version"
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.google.android.gms:play-services-location:$location_service_version"
 
 
 }

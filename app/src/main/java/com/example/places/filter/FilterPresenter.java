@@ -1,8 +1,6 @@
-
 package com.example.places.filter;
 
-
-import com.example.mapsdemo.data.CategoryKeeper;
+import com.example.places.data.CategoryKeeper;
 
 import java.util.ArrayList;
 import java.util.Collections;

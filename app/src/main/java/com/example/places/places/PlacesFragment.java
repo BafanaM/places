@@ -1,6 +1,4 @@
-
 package com.example.places.places;
-
 
 import android.Manifest;
 import android.app.ProgressDialog;
@@ -26,10 +24,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.esri.arcgisruntime.geometry.Envelope;
-import com.example.mapsdemo.R;
-import com.example.mapsdemo.data.CategoryHelper;
-import com.example.mapsdemo.data.LocationService;
-import com.example.mapsdemo.data.Place;
+
+import com.example.places.R;
+import com.example.places.data.CategoryHelper;
+import com.example.places.data.Place;
+import com.example.places.networking.LocationService;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -45,15 +44,10 @@ public class PlacesFragment extends Fragment implements PlacesContract.View,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private PlacesContract.Presenter mPresenter;
-
     private PlacesFragment.PlacesAdapter mPlaceAdapter;
-
     private static final String TAG = PlacesFragment.class.getSimpleName();
-
     private GoogleApiClient mGoogleApiClient;
-
     private FragmentListener mCallback;
-
     private ProgressDialog mProgressDialog;
 
     public PlacesFragment() {
@@ -68,11 +62,8 @@ public class PlacesFragment extends Fragment implements PlacesContract.View,
     @Override
     public final void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // retain this fragment
         setRetainInstance(true);
-
         mPlaceAdapter = new PlacesFragment.PlacesAdapter(new ArrayList<Place>());
-
         mCallback.onCreationComplete();
     }
 
@@ -93,8 +84,7 @@ public class PlacesFragment extends Fragment implements PlacesContract.View,
     @Override
     public void onAttach(final Context activity) {
         super.onAttach(activity);
-        // This makes sure that the container activity has implemented
-        // the callback interface. If not, it throws an exception
+
         try {
             mCallback = (FragmentListener) activity;
         } catch (final ClassCastException e) {
@@ -137,7 +127,6 @@ public class PlacesFragment extends Fragment implements PlacesContract.View,
     @Override
     public final void setPresenter(final PlacesContract.Presenter presenter) {
         mPresenter = presenter;
-        // Create an instance of GoogleAPIClient.
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                     .addConnectionCallbacks(this)
@@ -148,7 +137,7 @@ public class PlacesFragment extends Fragment implements PlacesContract.View,
     }
 
 
-    public class PlacesAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
+    public class PlacesAdapter extends RecyclerView.Adapter<PlacesFragment.RecyclerViewHolder> {
 
         private List<Place> mPlaces;
 
@@ -232,17 +221,11 @@ public class PlacesFragment extends Fragment implements PlacesContract.View,
         Log.e(TAG, getString(R.string.google_location_problem) + connectionResult.getErrorMessage());
     }
 
-
-    /**
-     * Starts the presenter with the given last location. If the location is null, default to a
-     * location in downtown Portland.
-     */
     private void startPresenter(Location location) {
         if (location == null) {
-            // Default to downtown Portland
             location = new Location("Default");
-            location.setLatitude(45.5155);
-            location.setLongitude(-122.676483);
+            location.setLatitude(-26.109550);
+            location.setLongitude(	28.056185);
         }
         Log.i(PlacesFragment.TAG, getString(R.string.latlong) + location.getLatitude() + "/" + location.getLongitude());
         mPresenter.setLocation(location);
@@ -250,10 +233,6 @@ public class PlacesFragment extends Fragment implements PlacesContract.View,
         mPresenter.start();
     }
 
-    /**
-     * Signals to the activity that this fragment has
-     * completed creation activities.
-     */
     public interface FragmentListener {
         void onCreationComplete();
     }

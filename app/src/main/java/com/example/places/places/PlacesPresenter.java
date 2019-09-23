@@ -8,9 +8,9 @@ import androidx.annotation.NonNull;
 import com.esri.arcgisruntime.geometry.Envelope;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.tasks.geocode.GeocodeParameters;
-import com.example.mapsdemo.data.LocationService;
-import com.example.mapsdemo.data.Place;
-import com.example.mapsdemo.data.PlacesServiceApi;
+import com.example.places.data.Place;
+import com.example.places.networking.LocationService;
+import com.example.places.networking.PlacesServiceApi;
 
 import java.util.List;
 
@@ -37,14 +37,12 @@ public class PlacesPresenter implements PlacesContract.Presenter {
             setPlacesNearby(existingPlaces);
         } else {
             LocationService.configureService(GEOCODE_URL,
-                    // On locator task load success
                     new Runnable() {
                         @Override
                         public void run() {
                             getPlacesNearby();
                         }
                     },
-                    // On locator task load error
                     new Runnable() {
                         @Override
                         public void run() {

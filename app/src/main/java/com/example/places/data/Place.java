@@ -65,19 +65,9 @@ public final class Place implements Comparable<Place> {
         return mPhone;
     }
 
-    @Nullable
-    public String getBearing() {
-        return mBearing;
-    }
-
     public long getDistance() {
         return mDistance;
     }
-
-    public void setBearing(final String bearing) {
-        mBearing = bearing;
-    }
-
     public void setDistance(final long d) {
         mDistance = d;
     }

@@ -1,14 +1,19 @@
 package com.example.places.networking;
 
-import android.content.Context;
 import android.location.Location;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.esri.arcgisruntime.concurrent.ListenableFuture;
+import com.esri.arcgisruntime.geometry.AngularUnit;
+import com.esri.arcgisruntime.geometry.AngularUnitId;
 import com.esri.arcgisruntime.geometry.Envelope;
+import com.esri.arcgisruntime.geometry.GeodeticCurveType;
+import com.esri.arcgisruntime.geometry.GeodeticDistanceResult;
 import com.esri.arcgisruntime.geometry.GeometryEngine;
+import com.esri.arcgisruntime.geometry.LinearUnit;
+import com.esri.arcgisruntime.geometry.LinearUnitId;
 import com.esri.arcgisruntime.geometry.Multipoint;
 import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
@@ -16,7 +21,7 @@ import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.tasks.geocode.GeocodeParameters;
 import com.esri.arcgisruntime.tasks.geocode.GeocodeResult;
 import com.esri.arcgisruntime.tasks.geocode.LocatorTask;
-import com.esri.arcgisruntime.tasks.networkanalysis.RouteTask;
+import com.example.places.data.CategoryKeeper;
 import com.example.places.data.Place;
 
 import java.util.ArrayList;
@@ -32,7 +37,6 @@ public class LocationService implements PlacesServiceApi {
     private static LocationService instance = null;
     private Point point = null;
     private Envelope currentEnvelope = null;
-    private RouteTask mRouteTask = null;
     private Map<String, Place> cachedPlaces = null;
 
     public static LocationService getInstance() {
@@ -62,11 +66,6 @@ public class LocationService implements PlacesServiceApi {
             });
             locatorTask.loadAsync();
         }
-    }
-
-    @Override
-    public void getRouteFromService(final Point start, final Point end, Context context, final RouteServiceCallback callback) {
-        //Do nothing
     }
 
     @Override
@@ -127,8 +126,16 @@ public class LocationService implements PlacesServiceApi {
         currentEnvelope = envelope;
     }
 
-    public Point getCurrentLocation() {
-        return point;
+        private void setBearingAndDistanceForPlace(final Place place) {
+        if ((point != null) && (place.getLocation() != null)) {
+            final LinearUnit linearUnit = new LinearUnit(LinearUnitId.METERS);
+            final AngularUnit angularUnit = new AngularUnit(AngularUnitId.DEGREES);
+            final Point newPoint = new Point(point.getX(), point.getY(), place.getLocation().getSpatialReference());
+            final GeodeticDistanceResult result = GeometryEngine.distanceGeodetic(newPoint, place.getLocation(), linearUnit, angularUnit, GeodeticCurveType.GEODESIC);
+            final double distance = result.getDistance();
+            place.setDistance(Math.round(distance));
+
+        }
     }
 
     private class GeocodeProcessor implements Runnable {
@@ -162,6 +169,8 @@ public class LocationService implements PlacesServiceApi {
                     final Point location = result.getDisplayLocation();
 
                     final Place place = new Place(name, type, location, address, url, phone, null, 0);
+                    setBearingAndDistanceForPlace(place);
+
                     Log.i("PLACE", place.toString());
 
                     if (currentEnvelope != null) {
